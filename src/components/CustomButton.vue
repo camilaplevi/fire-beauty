@@ -67,6 +67,7 @@ export default defineComponent({
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    font-family: Poppins;
     font-weight: bold;
     text-transform: uppercase;
     border: none;
@@ -78,6 +79,9 @@ export default defineComponent({
         color: $primary-dark;
         padding-left: 15px;
         justify-content: flex-start;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 0px;
     }
 
     &.button-download {

@@ -21,10 +21,6 @@ export default defineComponent({
         const containerFourthTitle = ref('Oportunidade para Profissionais')
         const containerFourthSubTitle = ref('Se você trabalha com beleza, a FireBeauty é o seu palco! Construa sua reputação, ganhe visibilidade e atraia mais clientes sem depender apenas do boca a boca.')
         const beneficios = ref('Benefícios Exclusivos')
-        const textPolicy = ref('Politica de privacidade')
-        const emailSupport = ref('support@firebeauty.com')
-        const instagram = ref('Firebeautyoficial')
-        const textRigths = ref('Todos os direitos reservados por FireBeauty')
 
         const cardsData = ref([
             {
@@ -90,10 +86,6 @@ export default defineComponent({
             containerFourthTitle,
             containerFourthSubTitle,
             beneficios,
-            textPolicy,
-            emailSupport,
-            instagram,
-            textRigths,
             cardsData,
 
             inputForm,
@@ -114,11 +106,11 @@ export default defineComponent({
                 style=" width: 100%; align-items: center; justify-content: space-between; margin-top: 10%;">
                 <div class="column col first-container" style="max-width: 50%;">
                     <p class="title-home"
-                        style="font-size: 60.726px; font-weight: 400; line-height: 65.91px; text-transform: uppercase; margin-bottom: 30px;">
+                        style="font-family: IvyMode; font-size: 60.726px; font-weight: 400; line-height: 65.91px; text-transform: uppercase; margin-bottom: 30px;">
                         {{ titleHome }}</p>
                     <p class="sub-text-home"
-                        style="font-size: 23px; font-weight: 400; line-height: 28px; margin-bottom: 30px;">{{
-                            subTextHome }}</p>
+                        style="font-family: Poppins; font-size: 23px; font-weight: 400; line-height: 28px; margin-bottom: 30px;">
+                        {{ subTextHome }}</p>
                     <div class="buttons-container" style="display: flex; gap: 30px; padding: 75px 0 0 0;">
                         <CustomButton type="playstore" :icon="buttonsIcons.playStore" iconAlt="Play Store"
                             label="DOWNLOAD" />
@@ -134,8 +126,8 @@ export default defineComponent({
                 <div class="card-form"
                     style=" width: 100%; max-width: 1200px; height: 166px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; box-sizing: border-box;">
                     <p class="text-card-form"
-                        style="font-size: 24.601px; font-weight: 600; line-height: 28px; white-space: pre-line;">{{
-                            textCardForm }}</p>
+                        style="font-family: Poppins; font-size: 24.601px; font-weight: 600; line-height: 28px; white-space: pre-line;">
+                        {{ textCardForm }}</p>
                     <q-input outlined dense v-model="inputForm" class="form-input"
                         style="width: 499px; height: 67px; border-radius: 4.393px;" />
                     <CustomButton type="benefit" label="Quero meu benefício" />
@@ -145,11 +137,11 @@ export default defineComponent({
             <div class="main-texts">
                 <div class="social-section" style="margin: 50px 0; text-align: center;">
                     <p class="text-rede-social"
-                        style=" font-size: 45px;font-weight: 600; line-height: 50.346px; margin-bottom: 20px; ">{{
-                            textRedeSocial }}</p>
+                        style="font-family: IvyMode; font-size: 45px;font-weight: 600; line-height: 50.346px; margin-bottom: 20px; ">
+                        {{ textRedeSocial }}</p>
                     <p class="sub-text-rede"
-                        style="font-size: 23px; font-weight: 500; line-height: 26px; white-space: pre-line;">{{
-                            subTextRedeSocial }}</p>
+                        style="font-family: Poppins; font-size: 23px; font-weight: 500; line-height: 26px; white-space: pre-line;">
+                        {{ subTextRedeSocial }}</p>
                 </div>
 
                 <div class="features-container"
@@ -172,7 +164,7 @@ export default defineComponent({
                         <div class="mobile-image-container"
                             style="position: relative; flex-shrink: 0; width: 300px; display: flex; justify-content: center; align-items: center;">
                             <div class="circulo"
-                                style="position: absolute; width: 400px; height: 400px; border-radius: 50%; z-index: -1;">
+                                style="position: absolute; width: 400px; height: 400px; border-radius: 50%;">
                             </div>
                             <img src="/src/assets/images/mobile.png" alt="Aplicativo FireBeauty" class="mobile-image"
                                 style="width: 300px; height: 757px; filter: drop-shadow(0px 10px 20px rgba(0, 0, 0, 0.1));">
@@ -192,63 +184,43 @@ export default defineComponent({
                     </div>
                 </div>
 
-                <div class="beneficios-section" style="margin: 100px 0; position: relative; overflow: hidden;">
+                <div class="beneficios-section" style="position: relative; overflow: hidden;">
                     <p class="section-title"
-                        style="font-size: 45px; font-weight: 600; text-align: center; margin-bottom: 60px;">
+                        style="font-family: IvyMode; font-size: 45px; font-weight: 600; text-align: center; margin-bottom: 60px;">
                         {{ beneficios }}
                     </p>
                 </div>
 
                 <div class="cards-container"
                     style="display: flex; flex-direction: column; gap: 40px; max-width: 1200px; margin: 0 auto; padding: 0 20px; margin-bottom: 160px;">
-                    <q-card v-for="(card, index) in cardsData" :key="card.id" class="custom-card"
-                        :class="{ 'reverse-layout': index % 2 !== 0, 'animate': cardsVisible[index] }"
-                        :style="{ '--delay': index * 0.2 + 's' }"
+                    <q-card v-for="(card, index) in cardsData" :key="card.id" class="custom-card" :class="{
+                        'reverse-layout': index % 2 !== 0,
+                        'animate': cardsVisible[index],
+                        'second-card': index === 1
+                    }" :style="{ '--delay': index * 0.2 + 's' }"
                         style="width: 1060px; height: 304px; border-radius: 12px !important; overflow: hidden; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;">
                         <div class="card-content" style="display: flex; align-items: center; padding: 30px;">
                             <div class="column text-content" style="flex: 1; padding: 20px;">
                                 <div class="row card-header" style="align-items: center; margin-bottom: 15px;">
                                     <p class="card-number"
-                                        style="font-size: 88px; font-weight: 500; margin-right: 15px; line-height: 118.8px;">
+                                        style="font-size: 88px; font-weight: 500; margin: 0; line-height: 118.8px;">
                                         {{ card.number }}
                                     </p>
                                     <p class="card-title"
-                                        style="font-size: 33.943px; font-weight: 600; line-height: 32.5px; margin: 0;  white-space: pre-line;">
+                                        style="font-family: Poppins; font-size: 33.943px; font-weight: 600; line-height: 32.5px; margin: 0 0 0 25px; white-space: pre-line;">
                                         {{ card.textoCard }}</p>
                                 </div>
                                 <p class="card-subtext"
-                                    style=" font-size: 23px; line-height: 23px; font-style: normal; margin: 0; white-space: pre-line;">
+                                    style="font-family: Poppins; font-size: 23px; line-height: 23px; font-style: normal; margin: 0; white-space: pre-line;">
                                     {{ card.subtexto }}</p>
                             </div>
                             <img :src="card.imagem" :alt="card.textoCard" class="card-image"
-                                style=" width: 300px; height: 100%; border-radius: 8px; object-fit: contain; object-position: center; transition: transform 0.5s ease;">
+                                style="width: 393px; height: 100%; border-radius: 8px; object-fit: contain; object-position: center; transition: transform 0.5s ease;">
                         </div>
                     </q-card>
                 </div>
 
-                <q-footer class="footer" style="height: 355px; background-color: white;">
-                    <div class="row" style="justify-content: space-around; height: 255px; align-content: center;">
-                        <img src="/src/assets/images/logo-vertical-preta.png" alt="Logo FireBeauty"
-                            style="width: 117px; height: 191px;">
-                        <div class="column texts-footer">
-                            <p class="text-policy" style="font-size: 22px; font-weight: 500; line-height: normal;">{{
-                                textPolicy }}</p>
-                            <p class="contatos">{{ emailSupport }}</p>
-                            <p class="contatos">{{ instagram }}</p>
-                        </div>
-                        <div class="buttons-container" style="display: flex; gap: 30px; padding: 75px 0 0 0;">
-                            <CustomButton type="playstore" :icon="buttonsIcons.playStore" iconAlt="Play Store"
-                                label="DOWNLOAD" />
-                            <CustomButton type="apple" :icon="buttonsIcons.appleStore" iconAlt="Apple Store"
-                                label="DOWNLOAD" />
-                        </div>
-                    </div>
-                    <hr>
-                    <div style="justify-content: center; display: flex;">
-                        {{ textRigths }}
-                    </div>
 
-                </q-footer>
             </div>
         </div>
     </q-page>
@@ -302,6 +274,7 @@ export default defineComponent({
 }
 
 .feature-title {
+    font-family: IvyMode;
     font-size: 22px;
     font-weight: 600;
     line-height: 1.3;
@@ -310,6 +283,7 @@ export default defineComponent({
 }
 
 .feature-description {
+    font-family: Poppins;
     font-size: 18px;
     font-weight: 400;
     line-height: 1.6;
@@ -347,6 +321,12 @@ export default defineComponent({
 
     &:hover .card-image {
         transform: scale(1.05);
+    }
+
+    &.second-card {
+        .text-content {
+            margin-left: 85px;
+        }
     }
 
     .card-content {
@@ -407,18 +387,6 @@ export default defineComponent({
     }
 
 }
-
-.text-policy {
-    color: $very-dark-brown;
-}
-
-.contatos {
-    font-size: 18px;
-    font-weight: 400;
-    line-height: normal;
-    color: $dark-grey;
-}
-
 
 
 
@@ -526,6 +494,9 @@ export default defineComponent({
 
 @media (max-width: 768px) {
     .main-container {
+        flex-direction: column;
+        margin-top: 5%;
+
         .first-container {
             .title-home {
                 font-size: 30px;
@@ -534,6 +505,10 @@ export default defineComponent({
 
             .sub-text-home {
                 font-size: 16px;
+            }
+
+            .main-image {
+                width: 80%;
             }
         }
     }
