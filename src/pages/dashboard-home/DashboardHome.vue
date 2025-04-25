@@ -53,6 +53,8 @@ export default defineComponent({
 
         const cardsVisible = ref(Array(cardsData.value.length).fill(false));
 
+        const mobileContainer = ref<HTMLElement | null>(null);
+
 
         onMounted(() => {
             const observer = new IntersectionObserver((entries) => {
@@ -68,8 +70,23 @@ export default defineComponent({
                 card.setAttribute('data-index', index.toString());
                 observer.observe(card);
             });
-        });
 
+            const mobileObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const circulo = entry.target.querySelector('.circulo');
+                        const mobileImg = entry.target.querySelector('.mobile-image');
+
+                        circulo?.classList.add('animate-circulo');
+                        mobileImg?.classList.add('animate-mobile');
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            if (mobileContainer.value) {
+                mobileObserver.observe(mobileContainer.value);
+            }
+        });
 
         return {
             titleHome,
@@ -90,6 +107,7 @@ export default defineComponent({
 
             inputForm,
             cardsVisible,
+            mobileContainer,
 
             buttonsIcons
         }
@@ -161,8 +179,8 @@ export default defineComponent({
                             </div>
                         </div>
 
-                        <div class="mobile-image-container"
-                            style="position: relative; flex-shrink: 0; width: 300px; display: flex; justify-content: center; align-items: center;">
+                        <div class="mobile-image-container" ref="mobileContainer"
+                            style="position: relative; flex-shrink: 0; width: 300px; display: flex; justify-content: center; align-items: center; perspective: 1000px;">
                             <div class="circulo"
                                 style="position: absolute; width: 400px; height: 400px; border-radius: 50%;">
                             </div>
@@ -293,6 +311,72 @@ export default defineComponent({
 .mobile-image-container {
     .circulo {
         background: $secondary;
+        opacity: 0;
+        transform: scale(0.5);
+        transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+        &.animate-circulo {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+            animation: pulse 6s infinite alternate;
+        }
+    }
+
+    .mobile-image {
+        transform-style: preserve-3d;
+        opacity: 0;
+        transform: translateY(30px) rotateY(30deg);
+        transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transition-delay: 0.3s;
+
+        &.animate-mobile {
+            opacity: 1;
+            transform: translateY(0) rotateY(0deg);
+            animation: float 4s ease-in-out infinite;
+        }
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0) rotateY(0deg);
+    }
+
+    50% {
+        transform: translateY(-15px) rotateY(5deg);
+    }
+}
+
+@keyframes shine {
+    0% {
+        filter: drop-shadow(0px 10px 20px rgba(0, 0, 0, 0.1));
+    }
+
+    50% {
+        filter: drop-shadow(0px 15px 30px rgba($primary, 0.2)) brightness(1.05);
+    }
+
+    100% {
+        filter: drop-shadow(0px 10px 20px rgba(0, 0, 0, 0.1));
     }
 }
 
