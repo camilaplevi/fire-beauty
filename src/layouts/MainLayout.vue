@@ -46,7 +46,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="hhh Lpr fff">
     <q-header elevated class="bg-white text-black">
       <q-toolbar class="q-px-md" style="height: 100px; justify-content: space-between;">
         <img src="/src/assets/Logo horizontal preta 4.png" alt="Logo da FireBeauty"
