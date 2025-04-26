@@ -1,7 +1,10 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
+import CustomButton from 'src/components/CustomButton.vue';
+import { buttonsIcons } from 'src/assets/icons/IconsButtons'
 
 export default defineComponent({
+    components: { CustomButton },
     setup() {
         const titleSobre = ref('A FireBeauty\nnasceu de\num sonho')
         const subText = ref('Conectar profissionais e amantes da beleza em\num só lugar. Mais do que um app, somos uma\nrede social feita para quem vive e ama o\nuniverso da beleza e estética.')
@@ -12,7 +15,8 @@ export default defineComponent({
         const clientSubTitle = ref('a FireBeauty te ajuda a encontrar profissionais\nincríveis, ver inspirações reais e agendar seu\natendimento com confiança.')
         const clientSubTitleCont = ref('Nada de cilada – só beleza de verdade, feita\npor quem entende do assunto.')
         const textOverImage = ref('COMPARTILHE\nCONECTE-SE\nINTERAJA\nCRESÇA!')
-        const textUnderImage = ref('A FireBeauty é mais do que um app. É uma comunidade onde cada curtida fortalece um profissional, cada\navaliação gera confiança e cada agendamento transforma a autoestima de alguém.')
+        const textUnderImage = ref('A FireBeauty é mais do que um app. É uma comunidade onde cada curtida fortalece um profissional, cada avaliação gera confiança e cada agendamento transforma a autoestima de alguém.')
+        const textCard = ref('Vem você fazer parte também,\nleve a beleza a outro nível!')
 
         const starsVisible = ref(0);
         const middleContainer = ref<HTMLElement | null>(null);
@@ -21,13 +25,11 @@ export default defineComponent({
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        // Animação apenas das estrelas
                         for (let i = 1; i <= 5; i++) {
                             setTimeout(() => {
                                 starsVisible.value = i;
-                            }, i * 300); // 300ms entre cada estrela
+                            }, i * 300);
                         }
-                        // Remove o observer após a primeira animação
                         observer.disconnect();
                     }
                 });
@@ -50,9 +52,12 @@ export default defineComponent({
             clientSubTitleCont,
             textOverImage,
             textUnderImage,
+            textCard,
 
             starsVisible,
-            middleContainer
+            middleContainer,
+
+            buttonsIcons
         }
     }
 })
@@ -62,14 +67,14 @@ export default defineComponent({
 <template>
     <q-page class="page-container" style="display: flex; justify-content: center; width: 100%;">
         <div class="main-content"
-            style="width: 100%; max-width: 1400px; margin: 0 auto; padding: 0 20px; box-sizing: border-box;">
+            style="width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; box-sizing: border-box;">
             <div class="row main-container"
                 style="width: 100%; align-items: center; justify-content: space-between; margin: 10% 0;">
                 <div style="flex: 1; min-width: 300px; max-width: 45%;">
                     <img src="/src/assets/images/first-image-page-sobre.png" alt=""
                         style="width: 100%; height: auto; border-radius: 12px;">
                 </div>
-                <div class="column" style="flex: 1; padding-left: 5%; max-width: 50%;">
+                <div class="column" style="flex: 1; padding-left: 2%; max-width: 50%;">
                     <p
                         style="font-family: IvyMode; font-size: 101.972px; font-weight: 400; line-height: 90px; white-space: pre-line;">
                         {{
@@ -112,15 +117,33 @@ export default defineComponent({
                 </div>
             </div>
             <p class="text-under-image"
-                style="font-family: Poppins; font-size: 23px; font-style: normal; font-weight: 400; line-height: 26px; white-space: pre-line;">
+                style="font-family: Poppins; font-size: 23px; font-style: normal; font-weight: 400; line-height: 26px; ">
                 {{ textUnderImage }}</p>
 
-        </div>
+            <q-card class="centered-form" style="display: flex; justify-content: center; width: 100%; margin: 86px 0;">
+                <div class="card-form"
+                    style=" width: 100%; height: 166px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; box-sizing: border-box;">
+                    <p class="text-card"
+                        style="font-family: Poppins; font-size: 24.601px; font-style: normal; font-weight: 600; line-height: 28px; white-space: pre-line;">
+                        {{ textCard }}</p>
+                    <div class="buttons-card" style="display: flex; gap: 38.42px;">
+                        <CustomButton type="playstore" :icon="buttonsIcons.playStore" iconAlt="Play Store"
+                            label="DOWNLOAD" />
+                        <CustomButton type="apple" :icon="buttonsIcons.appleStore" iconAlt="Apple Store"
+                            label="DOWNLOAD" />
+                    </div>
+                </div>
+            </q-card>
 
+        </div>
     </q-page>
 </template>
 
 <style lang="scss" scoped>
+.page-container {
+    background-color: $background-color;
+}
+
 .title {
     font-family: IvyMode;
     font-size: 45px;
@@ -151,6 +174,18 @@ export default defineComponent({
         opacity: 1;
         transform: scale(1);
     }
+}
+
+.card-form {
+    background-color: $secondary;
+}
+
+.text-under-image {
+    color: $middle-grey;
+}
+
+.text-card {
+    color: $button-dark;
 }
 
 @media (max-width: 1024px) {
