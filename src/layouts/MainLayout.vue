@@ -105,9 +105,10 @@ export default defineComponent({
         <img src="/src/assets/images/logo-vertical-preta.png" alt="Logo FireBeauty"
           style="width: 117px; height: 191px;">
         <div class="column texts-footer" style="justify-content: end;">
-          <p class="text-policy" style="font-family: Poppins; font-size: 22px; font-weight: 600; line-height: normal;">
-            {{
-              textPolicy }}</p>
+          <router-link to="/privacidade" class="text-policy"
+            style="font-family: Poppins; font-size: 22px; font-weight: 600; line-height: normal;">
+            {{ textPolicy }}
+          </router-link>
           <p class="contatos">{{ emailSupport }}</p>
           <p class="contatos">{{ instagram }}</p>
         </div>
@@ -175,6 +176,17 @@ export default defineComponent({
 
 .text-policy {
   color: $very-dark-brown;
+  text-decoration: none;
+  /* Remove sublinhado padrão */
+  cursor: pointer;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: $primary-dark;
+    /* Cor quando hover */
+    text-decoration: underline;
+    /* Adiciona sublinhado no hover se desejar */
+  }
 }
 
 .contatos {

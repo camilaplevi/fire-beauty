@@ -6,8 +6,14 @@ const routes: RouteRecordRaw[] = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '/inicio', component: () => import('pages/dashboard-home/DashboardHome.vue') },
+      { path: '/blog', component: () => import('pages/blog/BlogPage.vue') },
       { path: '/planos', component: () => import('pages/planos/InfoPlanos.vue') },
       { path: '/sobre', component: () => import('pages/sobre/InfoSobre.vue') },
+      {
+        path: '/funcionalidades',
+        component: () => import('pages/funcionalidades/InfoFuncionalidades.vue'),
+      },
+      { path: '/privacidade', component: () => import('pages/privacy-policy/PrivacyPolicy.vue') },
     ],
   },
 
