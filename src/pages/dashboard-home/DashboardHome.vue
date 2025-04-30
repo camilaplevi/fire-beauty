@@ -159,7 +159,10 @@ export default defineComponent({
                             label="DOWNLOAD" />
                     </div>
                 </div>
-                <img src="src/assets/images/first-image.png" alt="Revolução na beleza e estética" class="main-image">
+                <div>
+                    <img src="src/assets/images/first-image.png" alt="Revolução na beleza e estética"
+                        class="main-image">
+                </div>
             </div>
 
             <q-form class="centered-form">
