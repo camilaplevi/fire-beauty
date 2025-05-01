@@ -109,8 +109,11 @@ export default defineComponent({
             style="font-family: Poppins; font-size: 22px; font-weight: 600; line-height: normal;">
             {{ textPolicy }}
           </router-link>
-          <p class="contatos">{{ emailSupport }}</p>
-          <p class="contatos">{{ instagram }}</p>
+          <p class="contatos">
+            <q-icon name="mdi-email-outline" size="22px" class="q-mr-sm" /> {{ emailSupport }}</p>
+          <p class="contatos">
+            <q-icon name="mdi-instagram" size="22px" class="q-mr-sm" /> {{ instagram }}
+          </p>
         </div>
         <div class="buttons-container" style="display: flex; gap: 63px; padding: 75px 0 0 0;">
           <CustomButton type="playstore" :icon="buttonsIcons.playStore" iconAlt="Play Store" label="DOWNLOAD" />
