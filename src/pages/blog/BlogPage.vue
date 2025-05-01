@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref, onMounted, computed } from 'vue';
 
 interface BlogPost {
     id: number;
@@ -40,7 +40,6 @@ interface WordPressPostResponse {
             source_url: string;
         }>;
     };
-    // Adicione outras propriedades que você espera receber
 }
 
 export default defineComponent({
@@ -52,6 +51,13 @@ export default defineComponent({
         const error = ref<string | null>(null);
         const slide = ref(0);
         const currentImageIndex = ref(0);
+
+        const currentFeaturedPost = computed(() => {
+            if (posts.value.length > 7 + currentImageIndex.value) {
+                return posts.value[7 + currentImageIndex.value];
+            }
+            return null;
+        });
 
         const formatDate = (dateString: string): string => {
             const options: Intl.DateTimeFormatOptions = {
@@ -119,7 +125,8 @@ export default defineComponent({
             currentImageIndex,
             formatDate,
             getPostSafe,
-            getPostsForColumn
+            getPostsForColumn,
+            currentFeaturedPost
         };
     }
 });
@@ -222,11 +229,11 @@ export default defineComponent({
             <div class="mixed-section" style="max-width: 1300px; margin: 80px auto 0;">
                 <div class="mixed-container" style="display: flex;">
                     <div class="mixed-content" style="flex: 1;">
-                        <div class="text-content" v-if="!loading && getPostSafe(3)">
-                            <h3 class="mixed-post-title" v-html="getPostSafe(3)!.title.rendered"
+                        <div class="text-content" v-if="!loading && currentFeaturedPost">
+                            <h3 class="mixed-post-title" v-html="currentFeaturedPost.title.rendered"
                                 style="font-family: Poppins; font-size: 92.966px; font-weight: 700; line-height: 1.2; margin-bottom: 20px; margin-right: 5%;">
                             </h3>
-                            <div class="mixed-post-excerpt" v-html="getPostSafe(3)!.content.rendered"
+                            <div class="mixed-post-excerpt" v-html="currentFeaturedPost.excerpt.rendered"
                                 style="font-family: Poppins; font-size: 23px; font-style: normal; font-weight: 400; line-height: 38.736px; margin-bottom: 20px; margin-right: 5%; ">
                             </div>
                         </div>
@@ -239,7 +246,7 @@ export default defineComponent({
                                 class="image-slide" style="padding: 0;">
                                 <img v-if="post.media_url" :src="post.media_url" :alt="post.title.rendered"
                                     class="carousel-image-only"
-                                    style="width: 518px; height: 669px; border-radius: 8px;">
+                                    style="width: 518px; height: 669px; border-radius: 8px; object-fit: cover;">
                             </q-carousel-slide>
                         </q-carousel>
                     </div>

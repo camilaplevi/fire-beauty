@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref, onMounted, onBeforeUnmount } from 'vue';
+import { defineComponent, ref, onMounted, onBeforeUnmount, computed } from 'vue';
 import CustomButton from 'src/components/CustomButton.vue';
 import { buttonsIcons } from 'src/assets/icons/IconsButtons'
 
@@ -8,8 +8,8 @@ export default defineComponent({
     setup() {
         const titleFuncionalidades = ref('Possibilidades em um clique')
         const subText = ref('Descubra todas as funcionalidades que nosso\naplicativo permite para você profissional da beleza e\nvocê cliente.')
-        const textProfessional = ref('Se você for profissional...')
-        const textClient = ref('Se você for cliente...')
+        const professionalTitle = ref('Se você for profissional...')
+        const clientTitle = ref('Se você for cliente...')
         const textCard = ref('Vem você fazer parte também,\nleve a beleza a outro nível!')
 
         const titleFontSize = ref(101.972);
@@ -24,6 +24,20 @@ export default defineComponent({
         const cardTextLineHeight = ref(28);
         const layoutDirection = ref<'row' | 'column'>('row');
         const cardLayoutDirection = ref<'row' | 'column'>('row');
+
+        const formattedProfessionalTitle = computed(() => {
+            return professionalTitle.value.replace(
+                'profissional...',
+                '<span style="color: #AD9B8E">profissional...</span>'
+            );
+        });
+
+        const formattedClientTitle = computed(() => {
+            return clientTitle.value.replace(
+                'cliente...',
+                '<span style="color: #AD9B8E">cliente...</span>'
+            );
+        });
 
 
         const professionalItems = ref([
@@ -227,8 +241,8 @@ export default defineComponent({
             subText,
             professionalItems,
             clientItems,
-            textProfessional,
-            textClient,
+            professionalTitle,
+            clientTitle,
             textCard,
             buttonsIcons,
             // Variáveis responsivas
@@ -243,7 +257,9 @@ export default defineComponent({
             cardTextFontSize,
             cardTextLineHeight,
             layoutDirection,
-            cardLayoutDirection
+            cardLayoutDirection,
+            formattedProfessionalTitle,
+            formattedClientTitle
         }
     }
 })
@@ -275,7 +291,7 @@ export default defineComponent({
                     <h2 class="column-title" :style="{
                         fontSize: `${columnTitleFontSize}px`,
                         lineHeight: `${columnTitleLineHeight}px`
-                    }">{{ textProfessional }}</h2>
+                    }" v-html="formattedProfessionalTitle"></h2>
                     <div class="items-list">
                         <div v-for="item in professionalItems" :key="item.number" class="item">
                             <div class="item-content">
@@ -311,7 +327,7 @@ export default defineComponent({
                     <h2 class="column-title" :style="{
                         fontSize: `${columnTitleFontSize}px`,
                         lineHeight: `${columnTitleLineHeight}px`
-                    }">{{ textClient }}</h2>
+                    }" v-html="formattedClientTitle"></h2>
                     <div class="items-list">
                         <div v-for="item in clientItems" :key="item.number" class="item">
                             <div class="item-content">

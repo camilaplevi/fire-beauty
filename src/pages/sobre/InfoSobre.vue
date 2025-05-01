@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref, onMounted, onBeforeUnmount } from 'vue';
+import { defineComponent, ref, onMounted, onBeforeUnmount, computed } from 'vue';
 import CustomButton from 'src/components/CustomButton.vue';
 import { buttonsIcons } from 'src/assets/icons/IconsButtons';
 
@@ -23,6 +23,49 @@ export default defineComponent({
 
         const starsVisible = ref(0);
         const middleContainer = ref<HTMLElement | null>(null);
+
+        const formattedTitleSobre = computed(() => {
+            return titleSobre.value.replace(
+                'um sonho',
+                '<span style="color: #AD9B8E">um sonho</span>'
+            ).replace(/\n/g, '<br>');
+        });
+
+        const formattedProfessionalTitle = computed(() => {
+            return professionalTitle.value.replace(
+                'profissional...',
+                '<span style="color: #AD9B8E">profissional...</span>'
+            );
+        });
+
+        const formattedClientTitle = computed(() => {
+            return clientTitle.value.replace(
+                'cliente...',
+                '<span style="color: #AD9B8E">cliente...</span>'
+            );
+        });
+
+        const professionalSection = ref<HTMLElement | null>(null);
+        const clientSection = ref<HTMLElement | null>(null);
+        const professionalInView = ref(false);
+        const clientInView = ref(false);
+
+        const setupScrollAnimations = () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.target === professionalSection.value) {
+                        professionalInView.value = entry.isIntersecting;
+                    } else if (entry.target === clientSection.value) {
+                        clientInView.value = entry.isIntersecting;
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            if (professionalSection.value) observer.observe(professionalSection.value);
+            if (clientSection.value) observer.observe(clientSection.value);
+        };
+
+
 
         const handleResize = () => {
             if (window.innerWidth < 768) {
@@ -60,6 +103,7 @@ export default defineComponent({
             handleResize();
             window.addEventListener('resize', handleResize);
             setupStarAnimation();
+            setupScrollAnimations();
         });
 
         onBeforeUnmount(() => {
@@ -80,7 +124,15 @@ export default defineComponent({
             textCard,
             starsVisible,
             middleContainer,
+            formattedTitleSobre,
+            formattedProfessionalTitle,
+            formattedClientTitle,
             buttonsIcons,
+
+            professionalInView,
+            clientInView,
+            professionalSection,
+            clientSection,
 
             layoutDirection,
             cardLayoutDirection
@@ -98,19 +150,19 @@ export default defineComponent({
                         class="main-image">
                 </div>
                 <div class="text-container">
-                    <p class="title-text">{{ titleSobre }}</p>
+                    <p class="title-text" v-html="formattedTitleSobre"></p>
                     <p class="sub-text">{{ subText }}</p>
                 </div>
             </div>
 
             <div class="sections-container" :style="{ flexDirection: layoutDirection }">
                 <div class="section">
-                    <p class="section-title">{{ professionalTitle }}</p>
+                    <p class="section-title" v-html="formattedProfessionalTitle"></p>
                     <p class="section-text">{{ professionalSubTitle }}</p>
                     <p class="section-text">{{ professionalSubTitleCont }}</p>
                 </div>
                 <div class="section">
-                    <p class="section-title">{{ clientTitle }}</p>
+                    <p class="section-title" v-html="formattedClientTitle"></p>
                     <p class="section-text">{{ clientSubTitle }}</p>
                     <p class="section-text">{{ clientSubTitleCont }}</p>
                 </div>
@@ -283,6 +335,8 @@ export default defineComponent({
         line-height: 26px;
     }
 }
+
+
 
 .middle-container {
     position: relative;

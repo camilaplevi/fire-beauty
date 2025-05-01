@@ -328,7 +328,7 @@ export default defineComponent({
     height: auto;
 
     @media (max-width: 1023px) {
-        max-width: 80%;
+        max-width: 100%;
         margin-bottom: 30px;
     }
 }
