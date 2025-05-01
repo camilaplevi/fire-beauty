@@ -100,32 +100,38 @@ export default defineComponent({
       <router-view />
     </q-page-container>
 
-    <q-footer class="footer" style="height: 355px; background-color: white; border-top:2px #ECECEC ;">
-      <div class="row" style="justify-content: space-around; height: 255px; align-content: center;">
-        <img src="/src/assets/images/logo-vertical-preta.png" alt="Logo FireBeauty"
-          style="width: 117px; height: 191px;">
-        <div class="column texts-footer" style="justify-content: end;">
-          <router-link to="/privacidade" class="text-policy"
-            style="font-family: Poppins; font-size: 22px; font-weight: 600; line-height: normal;">
-            {{ textPolicy }}
-          </router-link>
-          <p class="contatos">
-            <q-icon name="mdi-email-outline" size="22px" class="q-mr-sm" /> {{ emailSupport }}</p>
-          <p class="contatos">
-            <q-icon name="mdi-instagram" size="22px" class="q-mr-sm" /> {{ instagram }}
-          </p>
-        </div>
-        <div class="buttons-container" style="display: flex; gap: 63px; padding: 75px 0 0 0;">
-          <CustomButton type="playstore" :icon="buttonsIcons.playStore" iconAlt="Play Store" label="DOWNLOAD" />
-          <CustomButton type="apple" :icon="buttonsIcons.appleStore" iconAlt="Apple Store" label="DOWNLOAD" />
-        </div>
+    <q-footer class="footer bg-white q-pt-lg">
+  <div class="row justify-around items-center q-py-lg">
+    <div class="col-auto">
+      <img src="/src/assets/images/logo-vertical-preta.png" alt="Logo FireBeauty" style="width: 117px; height: auto;">
+    </div>
+    
+    <div class="column col-auto q-gutter-y-md">
+      <router-link to="/privacidade" class="text-policy">
+        {{ textPolicy }}
+      </router-link>
+      <div class="row items-center text-info">
+        <q-icon name="mdi-email-outline" size="22px" class="q-mr-sm" />
+        <span>{{ emailSupport }}</span>
       </div>
-      <hr>
-      <div style="justify-content: center; display: flex; font-size: 16px; font-weight: 400; line-height: normal;">
-        <p class="text-rigths">{{ textRigths }}</p>
+      <div class="row items-center text-info">
+        <q-icon name="mdi-instagram" size="22px" class="q-mr-sm" />
+        <span>{{ instagram }}</span>
       </div>
-
-    </q-footer>
+    </div>
+    
+    <div class="col-auto row q-gutter-x-lg buttons-container">
+      <CustomButton type="playstore" :icon="buttonsIcons.playStore" iconAlt="Play Store" label="DOWNLOAD" />
+      <CustomButton type="apple" :icon="buttonsIcons.appleStore" iconAlt="Apple Store" label="DOWNLOAD" />
+    </div>
+  </div>
+  
+  <q-separator color="grey-4" />
+  
+  <div class="row justify-center q-py-md">
+    <p class="text-rigths text-center">{{ textRigths }}</p>
+  </div>
+</q-footer>
   </q-layout>
 </template>
 
@@ -161,6 +167,16 @@ export default defineComponent({
 
   img {
     margin-left: 15px !important;
+  }
+
+  .footer {
+    background-color: $background-color !important;
+    border-top: 1px solid #f9f9f9 !important;
+  }
+
+  .buttons-container {
+    justify-content: center;
+    gap: 16px;
   }
 }
 
@@ -202,5 +218,60 @@ export default defineComponent({
 
 .text-rigths {
   color: $middle-brown;
+}
+
+.footer {
+  border-top: 1px solid #ECECEC;
+  
+  .text-policy {
+    font-family: Poppins;
+    font-size: 22px;
+    font-weight: 600;
+    color: $very-dark-brown;
+    text-decoration: none;
+    
+    &:hover {
+      color: $primary-dark;
+      text-decoration: underline;
+    }
+  }
+  .text-info {
+    color: $middle-grey !important;
+  }
+  
+  .contatos {
+    font-family: Poppins;
+    font-size: 18px;
+    font-weight: 400;
+    color: $dark-grey;
+  }
+  
+  .text-rigths {
+    font-size: 16px;
+    font-weight: 400;
+    color: $middle-brown;
+    margin: 0;
+  }
+}
+
+@media (max-width: 1024px) {
+  .footer {
+    .row.justify-around {
+      flex-direction: column;
+      gap: 2rem;
+      align-items: center;
+      text-align: center;
+    }
+    
+    .buttons-container {
+      flex-direction: column;
+      gap: 1rem !important;
+      padding: 1rem 0 !important;
+    }
+    
+    .text-policy {
+      font-size: 18px;
+    }
+  }
 }
 </style>

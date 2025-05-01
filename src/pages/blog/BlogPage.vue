@@ -92,7 +92,6 @@ export default defineComponent({
                 error.value = null;
                 const data = await fetchWordPressPosts();
 
-                // Ordenar do mais novo para o mais antigo
                 posts.value = data.sort((a, b) =>
                     new Date(b.date).getTime() - new Date(a.date).getTime()
                 );
