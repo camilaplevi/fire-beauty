@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref, onMounted, computed } from 'vue';
+import { defineComponent, ref, onMounted, computed, onBeforeUnmount } from 'vue';
 
 interface BlogPost {
   id: number;
@@ -53,6 +53,11 @@ export default defineComponent({
     const currentImageIndex = ref(0);
     const layoutDirection = ref<'row' | 'column'>('row');
     const columnsLayout = ref<'row' | 'column'>('row');
+    const isMobile = ref(false);
+
+    const checkMobile = () => {
+      isMobile.value = window.innerWidth < 768;
+    };
 
     const currentFeaturedPost = computed(() => {
       if (posts.value.length > 7 + currentImageIndex.value) {
@@ -121,8 +126,13 @@ export default defineComponent({
       }
     };
 
+    onBeforeUnmount(() => {
+      window.removeEventListener('resize', checkMobile);
+    });
+
     onMounted(() => {
       handleResize();
+      checkMobile();
       window.addEventListener('resize', handleResize);
       void fetchPosts();
     });
@@ -140,6 +150,8 @@ export default defineComponent({
       currentFeaturedPost,
       layoutDirection,
       columnsLayout,
+      checkMobile,
+      isMobile,
     };
   },
 });
@@ -195,7 +207,6 @@ export default defineComponent({
         </div>
       </div>
 
-      <!-- Carrossel Principal -->
       <div class="carousel-section">
         <q-carousel
           v-model="slide"
@@ -255,7 +266,7 @@ export default defineComponent({
       <div class="mixed-section">
         <div class="mixed-container" :style="{ flexDirection: layoutDirection }">
           <div class="mixed-content">
-            <div class="text-content" v-if="!loading && currentFeaturedPost">
+            <div class="text-content" v-if="!loading && currentFeaturedPost && !isMobile">
               <h3 class="mixed-post-title" v-html="currentFeaturedPost.title.rendered"></h3>
               <div class="mixed-post-excerpt" v-html="currentFeaturedPost.excerpt.rendered"></div>
             </div>
@@ -276,6 +287,7 @@ export default defineComponent({
                 :key="post.id"
                 :name="index"
                 class="image-slide"
+                style="padding: 0"
               >
                 <img
                   v-if="post.media_url"
@@ -425,6 +437,7 @@ export default defineComponent({
 
   @media (max-width: 768px) {
     flex-direction: column;
+    gap: 40px;
   }
 }
 
@@ -675,7 +688,7 @@ export default defineComponent({
   margin: 80px auto 0;
 
   @media (max-width: 768px) {
-    margin: 40px auto 0;
+    margin: 0;
   }
 }
 
@@ -810,6 +823,7 @@ export default defineComponent({
 
       @media (max-width: 768px) {
         height: 300px;
+        margin: 0;
       }
     }
 
@@ -827,7 +841,7 @@ export default defineComponent({
         }
 
         @media (max-width: 768px) {
-          font-size: 28px;
+          font-size: 20px;
         }
       }
 
@@ -841,12 +855,12 @@ export default defineComponent({
 
         @media (max-width: 1024px) {
           font-size: 18px;
-          margin-bottom: 40px;
+          margin-bottom: 0;
         }
 
         @media (max-width: 768px) {
-          font-size: 16px;
-          margin-bottom: 30px;
+          font-size: 14px;
+          margin-bottom: 0;
         }
       }
     }
@@ -896,9 +910,8 @@ export default defineComponent({
         color: $title-post;
 
         @media (max-width: 768px) {
-          font-size: 16px;
+          font-size: 11px;
           line-height: 20px;
-          margin-top: 20px;
         }
       }
 
@@ -911,12 +924,12 @@ export default defineComponent({
         color: $primary-dark;
 
         @media (max-width: 1024px) {
-          font-size: 24px;
+          font-size: 16px;
           line-height: 28px;
         }
 
         @media (max-width: 768px) {
-          font-size: 20px;
+          font-size: 16px;
           line-height: 24px;
         }
       }
@@ -925,6 +938,10 @@ export default defineComponent({
         font-family: Poppins;
         font-size: 12px;
         color: $very-ligth-grey;
+
+        @media (max-width: 768px) {
+          font-size: 5.039px;
+        }
       }
     }
   }
