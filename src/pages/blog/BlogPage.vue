@@ -1,17 +1,5 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
-// import { api } from 'boot/axios'; // Mantemos comentado por enquanto
-
-import imageUm from 'src/assets/images/image-um.png';
-import imageDois from 'src/assets/images/image-dois.png';
-import imageTres from 'src/assets/images/image-tres.png';
-import imageQuatro from 'src/assets/images/image-quatro.png'
-import imageCinco from 'src/assets/images/image-cinco.png'
-import imageSeis from 'src/assets/images/image-seis.png'
-import imageSete from 'src/assets/images/image-sete.png'
-import imageOito from 'src/assets/images/image-oito.png'
-import imageNove from '/src/assets/images/image-nove.png'
-import imageDez from 'src/assets/images/image-dez.png'
 
 interface BlogPost {
     id: number;
@@ -21,127 +9,39 @@ interface BlogPost {
     excerpt: {
         rendered: string;
     };
+    content: {
+        rendered: string;
+    };
     date: string;
     featured_media: number;
     media_url?: string;
+    _embedded?: {
+        'wp:featuredmedia'?: Array<{
+            source_url: string;
+        }>;
+    };
 }
 
-// Mock data que simula a resposta da API do WordPress
-
-const mockPosts: BlogPost[] = [
-    {
-        id: 1,
-        title: { rendered: "Introdução ao Vue.js 3" },
-        excerpt: { rendered: "<p>Aprenda os conceitos básicos do Vue.js 3 e como começar seu primeiro projeto.</p>" },
-        date: new Date().toISOString(),
-        featured_media: 1,
-        media_url: imageUm
-    },
-    {
-        id: 2,
-        title: { rendered: "TypeScript para Iniciantes" },
-        excerpt: { rendered: "<p>Descubra como TypeScript pode melhorar sua experiência com JavaScript.</p>" },
-        date: new Date(Date.now() - 86400000).toISOString(),
-        featured_media: 2,
-        media_url: imageDois
-    },
-    {
-        id: 3,
-        title: { rendered: "Quasar Framework: Componentes Incríveis" },
-        excerpt: { rendered: "<p>Explore os componentes prontos do Quasar que aceleram seu desenvolvimento.</p>" },
-        date: new Date(Date.now() - 172800000).toISOString(),
-        featured_media: 3,
-        media_url: imageTres
-    },
-    {
-        id: 4,
-        title: { rendered: "SEO para Aplicações Vue" },
-        excerpt: { rendered: "<p>Técnicas essenciais de SEO para aplicações Vue.js single page.</p>" },
-        date: new Date(Date.now() - 259200000).toISOString(),
-        featured_media: 4,
-        media_url: imageQuatro
-    },
-    {
-        id: 5,
-        title: { rendered: "Gerenciamento de Estado com Pinia" },
-        excerpt: { rendered: "<p>Como substituir o Vuex pelo Pinia em seus projetos Vue 3.</p>" },
-        date: new Date(Date.now() - 345600000).toISOString(),
-        featured_media: 5,
-        media_url: imageQuatro
-    },
-    {
-        id: 6,
-        title: { rendered: "Testes Unitários com Jest" },
-        excerpt: { rendered: "<p>Guia prático para implementar testes unitários em componentes Vue.</p>" },
-        date: new Date(Date.now() - 432000000).toISOString(),
-        featured_media: 6,
-        media_url: imageQuatro
-    },
-    {
-        id: 7,
-        title: { rendered: "Deploy Automatizado com GitHub Actions" },
-        excerpt: { rendered: "<p>Automatize o deploy de sua aplicação Vue usando CI/CD.</p>" },
-        date: new Date(Date.now() - 518400000).toISOString(),
-        featured_media: 7,
-        media_url: imageCinco
-    },
-    {
-        id: 8,
-        title: { rendered: "Design System com Vue" },
-        excerpt: { rendered: "<p>Crie um design system consistente para seus projetos Vue.js.</p>" },
-        date: new Date(Date.now() - 604800000).toISOString(),
-        featured_media: 8,
-        media_url: imageCinco
-    },
-    {
-        id: 9,
-        title: { rendered: "Performance em Aplicações Vue" },
-        excerpt: { rendered: "<p>Otimize o desempenho de suas aplicações Vue com estas dicas.</p>" },
-        date: new Date(Date.now() - 691200000).toISOString(),
-        featured_media: 9,
-        media_url: imageCinco
-    },
-    {
-        id: 10,
-        title: { rendered: "GraphQL com Vue Apollo" },
-        excerpt: { rendered: "<p>Como integrar GraphQL em seus projetos Vue usando Apollo Client.</p>" },
-        date: new Date(Date.now() - 777600000).toISOString(),
-        featured_media: 10,
-        media_url: imageSeis
-    },
-    {
-        id: 11,
-        title: { rendered: "Micro-frontends com Vue" },
-        excerpt: { rendered: "<p>Arquitetura de micro-frontends usando Vue.js em projetos complexos.</p>" },
-        date: new Date(Date.now() - 864000000).toISOString(),
-        featured_media: 11,
-        media_url: imageSete
-    },
-    {
-        id: 12,
-        title: { rendered: "Animções CSS em Componentes Vue" },
-        excerpt: { rendered: "<p>Técnicas avançadas de animação para melhorar a UX.</p>" },
-        date: new Date(Date.now() - 950400000).toISOString(),
-        featured_media: 12,
-        media_url: imageOito
-    },
-    {
-        id: 13,
-        title: { rendered: "Segurança em Aplicações Vue" },
-        excerpt: { rendered: "<p>Práticas essenciais para proteger suas aplicações Vue.js.</p>" },
-        date: new Date(Date.now() - 1036800000).toISOString(),
-        featured_media: 13,
-        media_url: imageNove
-    },
-    {
-        id: 14,
-        title: { rendered: "Vue 3 Composition API" },
-        excerpt: { rendered: "<p>Domine a nova Composition API do Vue 3 para código mais organizado.</p>" },
-        date: new Date(Date.now() - 1123200000).toISOString(),
-        featured_media: 14,
-        media_url: imageDez
-    }
-];
+interface WordPressPostResponse {
+    id: number;
+    title: {
+        rendered: string;
+    };
+    excerpt: {
+        rendered: string;
+    };
+    content: {
+        rendered: string;
+    };
+    date: string;
+    featured_media: number;
+    _embedded?: {
+        'wp:featuredmedia'?: Array<{
+            source_url: string;
+        }>;
+    };
+    // Adicione outras propriedades que você espera receber
+}
 
 export default defineComponent({
     name: 'BlogPage',
@@ -151,12 +51,7 @@ export default defineComponent({
         const loading = ref(true);
         const error = ref<string | null>(null);
         const slide = ref(0);
-        const slidesToShow = ref(3);
-
-        const slideImages = ref([imageCinco, imageCinco, imageCinco]);
         const currentImageIndex = ref(0);
-
-
 
         const formatDate = (dateString: string): string => {
             const options: Intl.DateTimeFormatOptions = {
@@ -167,22 +62,34 @@ export default defineComponent({
             return new Date(dateString).toLocaleDateString('pt-BR', options);
         };
 
-        const fetchMockPosts = (): Promise<BlogPost[]> => {
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    resolve([...mockPosts].sort((a, b) =>
-                        new Date(b.date).getTime() - new Date(a.date).getTime()
-                    ));
-                }, 800);
-            });
+        const fetchWordPressPosts = async (): Promise<BlogPost[]> => {
+            try {
+                const response = await fetch('http://firebeautyblog.local/wp-json/wp/v2/posts?_embed');
+                if (!response.ok) {
+                    throw new Error('Erro ao buscar posts');
+                }
+                const data: WordPressPostResponse[] = await response.json();
+
+                return data.map((post: WordPressPostResponse) => ({
+                    ...post,
+                    media_url: post._embedded?.['wp:featuredmedia']?.[0]?.source_url || ''
+                }));
+            } catch (error) {
+                console.error('Erro ao buscar posts:', error);
+                throw error;
+            }
         };
 
         const fetchPosts = async (): Promise<void> => {
             try {
                 loading.value = true;
                 error.value = null;
-                const data = await fetchMockPosts();
-                posts.value = data;
+                const data = await fetchWordPressPosts();
+
+                // Ordenar do mais novo para o mais antigo
+                posts.value = data.sort((a, b) =>
+                    new Date(b.date).getTime() - new Date(a.date).getTime()
+                );
             } catch (err) {
                 error.value = 'Erro ao carregar posts';
                 console.error('Erro:', err);
@@ -209,10 +116,8 @@ export default defineComponent({
             loading,
             error,
             slide,
-            slidesToShow,
-            formatDate,
-            slideImages,
             currentImageIndex,
+            formatDate,
             getPostSafe,
             getPostsForColumn
         };
@@ -234,7 +139,7 @@ export default defineComponent({
                     </div>
                 </div>
 
-                <div class="posts-container" style="display: flex; gap: 20px; overflow-x: auto;">
+                <div class="posts-container" style="display: flex; gap: 20px; height: auto;">
                     <div v-if="loading" style="display: flex; gap: 20px;">
                         <div v-for="n in 3" :key="n" class="post-card loading" style="min-width: 300px;">
                             <div class="horizontal-loading" style="display: flex; align-items: flex-end;">
@@ -256,7 +161,7 @@ export default defineComponent({
                             <div style="display: flex; align-items: flex-end;">
                                 <div class="image" style="height: 150px; display: flex; align-items: flex-end;">
                                     <img v-if="post.media_url" :src="post.media_url" :alt="post.title.rendered"
-                                        class="post-image" style="object-fit: cover;">
+                                        class="post-image" style="object-fit: cover; width: 190px; height: 158px;">
                                 </div>
                                 <div class="post-content"
                                     style="margin-left: 17px; height: 150px; display: flex; flex-direction: column; justify-content: space-between;">
@@ -287,7 +192,7 @@ export default defineComponent({
                         class="carousel-slide" style="padding: 0;">
                         <div class="carousel-item" style="position: relative; width: 100%; height: 100%;">
                             <img v-if="post.media_url" :src="post.media_url" :alt="post.title.rendered"
-                                class="carousel-image" style=" width: 100%; height: 100%; object-fit: cover;">
+                                class="carousel-image" style=" width: 1300px; height: 669px; object-fit: cover;">
                             <div class="carousel-overlay"
                                 style=" position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, transparent 100%);">
                             </div>
@@ -321,7 +226,7 @@ export default defineComponent({
                             <h3 class="mixed-post-title" v-html="getPostSafe(3)!.title.rendered"
                                 style="font-family: Poppins; font-size: 92.966px; font-weight: 700; line-height: 1.2; margin-bottom: 20px; margin-right: 5%;">
                             </h3>
-                            <div class="mixed-post-excerpt" v-html="getPostSafe(3)!.excerpt.rendered"
+                            <div class="mixed-post-excerpt" v-html="getPostSafe(3)!.content.rendered"
                                 style="font-family: Poppins; font-size: 23px; font-style: normal; font-weight: 400; line-height: 38.736px; margin-bottom: 20px; margin-right: 5%; ">
                             </div>
                         </div>
@@ -330,10 +235,11 @@ export default defineComponent({
                     <div class="image-carousel-wrapper" style="min-width: 0;">
                         <q-carousel v-model="currentImageIndex" animated infinite class="image-carousel" arrows
                             :navigation="false" height="auto" style="max-width: 600px;">
-                            <q-carousel-slide v-for="(img, index) in slideImages" :key="index" :name="index"
+                            <q-carousel-slide v-for="(post, index) in posts.slice(7, 10)" :key="post.id" :name="index"
                                 class="image-slide" style="padding: 0;">
-                                <img :src="img" :alt="`Destaque ${index + 1}`" class="carousel-image-only"
-                                    style="width: 100%; height: auto; border-radius: 8px;">
+                                <img v-if="post.media_url" :src="post.media_url" :alt="post.title.rendered"
+                                    class="carousel-image-only"
+                                    style="width: 518px; height: 669px; border-radius: 8px;">
                             </q-carousel-slide>
                         </q-carousel>
                     </div>
