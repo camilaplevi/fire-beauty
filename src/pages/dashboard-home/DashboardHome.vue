@@ -383,7 +383,7 @@ export default defineComponent({
     font-style: normal;
     font-weight: 400;
     line-height: 22px;
-    width: 320px;
+    text-align: justify;
   }
 }
 
@@ -401,7 +401,7 @@ export default defineComponent({
   @media (max-width: 767px) {
     flex-direction: column;
     gap: 15px;
-    padding: 20px 0;
+    padding: 30px 0;
   }
 }
 
