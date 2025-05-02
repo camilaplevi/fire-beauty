@@ -3,6 +3,7 @@ import { defineComponent, ref, onMounted, onBeforeUnmount } from 'vue';
 import { buttonsIcons } from 'src/assets/icons/IconsButtons';
 import CustomButton from 'src/components/CustomButton.vue';
 import { QCard, QForm, QInput } from 'quasar';
+import { imagesSite } from 'src/assets/images/Images';
 
 export default defineComponent({
   components: { CustomButton, QCard, QForm, QInput },
@@ -41,7 +42,7 @@ export default defineComponent({
         textoCard: 'Encontre os Melhores\nProfissionais da Beleza\nPerto de Você',
         subtexto:
           'Encontre facilmente profissionais qualificados\ncom avaliações reais, garantindo a melhor\nescolha para seus serviços de beleza e estética.',
-        imagem: '/src/assets/images/card-01.png',
+        imagem: imagesSite.firstCard,
         imageLeft: false,
       },
       {
@@ -50,7 +51,7 @@ export default defineComponent({
         textoCard: 'Agende com\nFacilidade',
         subtexto:
           'Marque seus serviços de beleza de forma\nrápida e prática, com agendamentos\nflexíveis e lembretes automáticos.',
-        imagem: '/src/assets/images/card-02.png',
+        imagem: imagesSite.secondCard,
         imageLeft: true,
       },
       {
@@ -59,7 +60,7 @@ export default defineComponent({
         textoCard: 'Atraia Mais\nClientes',
         subtexto:
           'Profissionais podem aumentar sua visibilidade\ne conquistar mais clientes com avaliações\npositivas e fácil agendamento.',
-        imagem: '/src/assets/images/card-03.png',
+        imagem: imagesSite.thirdCard,
         imageLeft: false,
       },
     ]);
@@ -161,6 +162,7 @@ export default defineComponent({
       layoutDirection,
       cardFormLayoutDirection,
       featuresLayoutDirection,
+      imagesSite,
     };
   },
 });
@@ -190,7 +192,7 @@ export default defineComponent({
         </div>
         <div>
           <img
-            src="src/assets/images/first-image.png"
+            :src="imagesSite.imageInicio"
             alt="Revolução na beleza e estética"
             class="main-image"
           />
@@ -226,11 +228,7 @@ export default defineComponent({
 
             <div class="mobile-image-container" ref="mobileContainer">
               <div class="circulo"></div>
-              <img
-                src="/src/assets/images/mobile.png"
-                alt="Aplicativo FireBeauty"
-                class="mobile-image"
-              />
+              <img :src="imagesSite.imageMobile" alt="Aplicativo FireBeauty" class="mobile-image" />
             </div>
 
             <div class="text-column right-column">
