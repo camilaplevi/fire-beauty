@@ -214,7 +214,7 @@ export default defineComponent({
           infinite
           class="custom-carousel"
           :arrows="false"
-          :navigation="false"
+          :navigation="true"
         >
           <q-carousel-slide
             v-for="(post, index) in posts.slice(3, 6)"
@@ -279,7 +279,7 @@ export default defineComponent({
               infinite
               class="image-carousel"
               arrows
-              :navigation="false"
+              :navigation="true"
               height="auto"
             >
               <q-carousel-slide
