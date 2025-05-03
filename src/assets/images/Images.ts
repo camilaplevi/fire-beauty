@@ -8,6 +8,7 @@ import ImageSobre from 'src/assets/images/first-image-page-sobre.png';
 import SecondImageSobre from 'src/assets/images/second-image-page-sobre.png';
 import ImageInicio from 'src/assets/images/first-image.png';
 import ImageMobile from 'src/assets/images/mobile.png';
+import ImageLogoMenuMobile from 'src/assets/images/logo-menu-mobile.png';
 
 export const imagesSite = {
   firstCard: FirstCard,
@@ -20,4 +21,5 @@ export const imagesSite = {
   secondImageSobre: SecondImageSobre,
   imageInicio: ImageInicio,
   imageMobile: ImageMobile,
+  imageLogoMenuMobile: ImageLogoMenuMobile,
 };

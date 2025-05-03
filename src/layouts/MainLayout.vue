@@ -1,5 +1,6 @@
 <script lang="ts">
 import { ref, defineComponent } from 'vue';
+import { useRoute } from 'vue-router';
 import { buttonsIcons } from 'src/assets/icons/IconsButtons';
 import CustomButton from 'src/components/CustomButton.vue';
 import { imagesSite } from 'src/assets/images/Images';
@@ -7,15 +8,21 @@ import { imagesSite } from 'src/assets/images/Images';
 export default defineComponent({
   components: { CustomButton },
   setup() {
-    const homeText = ref('Início');
-    const blogText = ref('Blog');
-    const aboutText = ref('Sobre');
-    const plansText = ref('Planos');
-    const featuresText = ref('Funcionalidades');
+    const route = useRoute();
+
+    const menuItems = [
+      { id: 1, path: '/inicio', label: 'Início' },
+      { id: 2, path: '/blog', label: 'Blog' },
+      { id: 3, path: '/sobre', label: 'Sobre' },
+      { id: 4, path: '/planos', label: 'Planos' },
+      { id: 5, path: '/funcionalidades', label: 'Funcionalidades' },
+    ];
+
     const textPolicy = ref('Politica de privacidade');
     const emailSupport = ref('support@firebeauty.com');
     const instagram = ref('Firebeautyoficial');
     const textRigths = ref('Todos os direitos reservados por FireBeauty');
+    const textSuporteMenuMobile = ref('Suporte');
 
     const rightDrawerOpen = ref(false);
 
@@ -24,19 +31,15 @@ export default defineComponent({
     };
 
     return {
-      homeText,
-      blogText,
-      aboutText,
-      plansText,
-      featuresText,
+      menuItems,
+      route,
       textPolicy,
       emailSupport,
       instagram,
       textRigths,
-
+      textSuporteMenuMobile,
       rightDrawerOpen,
       toggleRightDrawer,
-
       buttonsIcons,
       imagesSite,
     };
@@ -45,7 +48,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <q-layout view="hhh Lpr fff">
+  <q-layout view="hHh Lpr fff">
     <q-header elevated class="bg-white text-black">
       <q-toolbar class="q-px-md" style="height: 100px; justify-content: space-between">
         <img
@@ -54,17 +57,19 @@ export default defineComponent({
           style="width: 141px !important; height: 49px !important; margin: 0 0 20px 30px"
         />
 
-        <div
-          class="row q-gutter-sm q-ml-auto items-center buttons-header desktop-menu"
-          style="margin-right: 30px"
-        >
-          <q-btn flat label="Início" to="/inicio" active-class="active-link" />
-          <q-btn flat label="Blog" to="/blog" active-class="active-link" />
-          <q-btn flat label="Sobre" to="/sobre" active-class="active-link" />
-          <q-btn flat label="Planos" to="/planos" active-class="active-link" />
-          <q-btn flat label="Funcionalidades" to="/funcionalidades" active-class="active-link" />
-
-          <q-btn label="Baixar agora" unelevated class="btn-baixar" />
+        <div class="desktop-menu row items-center" style="margin-right: 30px">
+          <ul class="menu-list">
+            <li v-for="item in menuItems" :key="item.id" class="menu-item">
+              <router-link
+                :to="item.path"
+                :class="{ 'active-route': route.path === item.path }"
+                class="menu-link"
+              >
+                {{ item.label }}
+              </router-link>
+            </li>
+          </ul>
+          <q-btn label="Baixar agora" unelevated class="btn-baixar q-ml-md" />
         </div>
 
         <q-btn
@@ -81,30 +86,29 @@ export default defineComponent({
     </q-header>
 
     <q-drawer v-model="rightDrawerOpen" bordered side="right" behavior="mobile" class="bg-white">
+      <img :src="imagesSite.imageLogoMenuMobile" alt="Logo FireBeauty" class="logo-mobile" />
+      <hr style="width: 90%" />
       <q-list>
-        <q-item clickable v-ripple to="/inicio" active-class="active-link">
-          <q-item-section>{{ homeText }}</q-item-section>
-        </q-item>
-
-        <q-item clickable v-ripple to="/blog" active-class="active-link">
-          <q-item-section>{{ blogText }}</q-item-section>
-        </q-item>
-
-        <q-item clickable v-ripple to="/sobre" active-class="active-link">
-          <q-item-section>{{ aboutText }}</q-item-section>
-        </q-item>
-
-        <q-item clickable v-ripple to="/planos" active-class="active-link">
-          <q-item-section>{{ plansText }}</q-item-section>
-        </q-item>
-
-        <q-item clickable v-ripple to="/funcionalidades" active-class="active-link">
-          <q-item-section>{{ featuresText }}</q-item-section>
+        <q-item
+          v-for="item in menuItems"
+          :key="item.id"
+          clickable
+          v-ripple
+          :to="item.path"
+          :class="{ active: route.path === item.path }"
+          class="mobile-menu-item"
+        >
+          <q-item-section>{{ item.label }}</q-item-section>
         </q-item>
 
         <q-item>
           <q-btn label="Baixar agora" unelevated class="btn-baixar full-width" />
         </q-item>
+        <hr style="width: 90%" />
+        <router-link to="/privacidade" class="texts-menu-mobile" style="text-decoration: none">
+          {{ textPolicy }}
+        </router-link>
+        <p class="texts-menu-mobile">{{ textSuporteMenuMobile }}</p>
       </q-list>
     </q-drawer>
 
@@ -162,19 +166,109 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
-.active-link {
-  border-bottom: 2px solid #ad9b8e;
-  border-radius: 0;
-  color: #ad9b8e !important;
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.menu-item {
+  margin-right: 20px;
+  position: relative;
+}
+
+.menu-link {
+  text-decoration: none;
+  color: #333;
+  font-family: Poppins;
+  font-size: 17.161px;
+  font-weight: 400;
+  line-height: normal;
+  padding: 5px 0;
+  position: relative;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: #ad9b8e;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background-color: #ad9b8e;
+      border-radius: 2px;
+    }
+  }
+
+  &.active-route {
+    color: #ad9b8e;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background-color: #ad9b8e;
+      border-radius: 2px;
+    }
+  }
+}
+
+.mobile-menu-item {
+  font-family: Poppins;
+  font-size: 16px;
+
+  &.active {
+    color: #ad9b8e;
+    font-weight: 500;
+
+    .q-item__section {
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background-color: #ad9b8e;
+        border-radius: 2px;
+      }
+    }
+  }
+}
+
+.logo-mobile {
+  margin-top: 20px;
+  margin-left: 10px !important;
+}
+
+.texts-menu-mobile {
+  font-family: Poppins;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 26px;
+  margin-left: 18px;
+  color: $middle-brown;
 }
 
 .btn-baixar {
+  font-family: Poppins;
   background-color: #ad9b8e !important;
   color: black !important;
-}
-
-.buttons-header::after {
-  text-decoration: underline #ad9b8e;
+  text-transform: none;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 }
 
 .hamburger-menu {
@@ -205,7 +299,6 @@ export default defineComponent({
   }
 }
 
-/* Estilos para o drawer (menu lateral direito) */
 .q-drawer {
   width: 250px !important;
 }
@@ -221,15 +314,12 @@ export default defineComponent({
 .text-policy {
   color: $very-dark-brown;
   text-decoration: none;
-  /* Remove sublinhado padrão */
   cursor: pointer;
   transition: color 0.3s ease;
 
   &:hover {
     color: $primary-dark;
-    /* Cor quando hover */
     text-decoration: underline;
-    /* Adiciona sublinhado no hover se desejar */
   }
 }
 
@@ -262,6 +352,7 @@ export default defineComponent({
   }
   .text-info {
     color: $middle-grey !important;
+    font-family: Poppins;
   }
 
   .contatos {

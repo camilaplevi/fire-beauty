@@ -199,6 +199,7 @@ export default defineComponent({
                 :key="i"
                 name="mdi-star"
                 class="star"
+                size="45px"
                 :class="{ visible: starsVisible >= i }"
               ></q-icon>
             </div>
@@ -308,6 +309,7 @@ export default defineComponent({
   margin: 0;
   font-size: 23px;
   line-height: 26px;
+  color: $middle-grey;
 
   @media (max-width: 767px) {
     text-align: center;
@@ -360,6 +362,7 @@ export default defineComponent({
   margin: 0 0 20px 0;
   font-size: 23px;
   line-height: 26px;
+  color: $middle-grey;
 
   @media (max-width: 767px) {
     text-align: center;
@@ -454,6 +457,7 @@ export default defineComponent({
 .stars-container {
   display: flex;
   gap: 15px;
+  width: 50px;
 }
 
 .star {
@@ -465,6 +469,9 @@ export default defineComponent({
   &.visible {
     opacity: 1;
     transform: scale(1);
+  }
+  @media (max-width: 767px) {
+    font-size: 30px;
   }
 }
 

@@ -437,6 +437,7 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   width: 100%;
+  background-color: $background-color;
 }
 
 .main-content {
@@ -494,6 +495,7 @@ export default defineComponent({
   font-weight: 400;
   white-space: pre-line;
   margin: 0;
+  color: $primary-dark;
 
   @media (max-width: 767px) {
     text-align: center;
@@ -505,6 +507,7 @@ export default defineComponent({
   font-weight: 400;
   white-space: pre-line;
   margin: 0;
+  color: $middle-grey;
 
   @media (max-width: 767px) {
     text-align: center;
@@ -531,6 +534,7 @@ export default defineComponent({
   font-family: IvyMode;
   font-weight: 600;
   margin: 0 0 30px 0;
+  color: $primary-dark;
 
   @media (max-width: 767px) {
     text-align: center;

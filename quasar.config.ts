@@ -43,7 +43,6 @@ export default defineConfig((/* ctx */) => {
         // extendTsConfig (tsConfig) {}
       },
 
-      distDir: 'docs',
       vueRouterMode: 'history', // available values: 'hash', 'history'
       // vueRouterBase,
       // vueDevtools,

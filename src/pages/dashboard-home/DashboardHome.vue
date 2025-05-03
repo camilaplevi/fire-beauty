@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref, onMounted, onBeforeUnmount } from 'vue';
+import { defineComponent, ref, onMounted, onBeforeUnmount, computed } from 'vue';
 import { buttonsIcons } from 'src/assets/icons/IconsButtons';
 import CustomButton from 'src/components/CustomButton.vue';
 import { QCard, QForm, QInput } from 'quasar';
@@ -64,6 +64,17 @@ export default defineComponent({
         imageLeft: false,
       },
     ]);
+
+    const formattedBenefitsText = computed(() => {
+      return beneficios.value.replace(
+        'Exclusivos',
+        '<span style="color: #AD9B8E">Exclusivos</span>',
+      );
+    });
+
+    const formattedRedeSocialText = computed(() => {
+      return textRedeSocial.value.replace('BELEZA', '<span style="color: #AD9B8E">BELEZA</span>');
+    });
 
     const inputForm = ref('');
 
@@ -158,6 +169,8 @@ export default defineComponent({
       cardsVisible,
       mobileContainer,
       buttonsIcons,
+      formattedBenefitsText,
+      formattedRedeSocialText,
 
       layoutDirection,
       cardFormLayoutDirection,
@@ -209,7 +222,7 @@ export default defineComponent({
 
       <div class="main-texts">
         <div class="social-section">
-          <p class="text-rede-social">{{ textRedeSocial }}</p>
+          <p class="text-rede-social" v-html="formattedRedeSocialText"></p>
           <p class="sub-text-rede">{{ subTextRedeSocial }}</p>
         </div>
 
@@ -245,7 +258,7 @@ export default defineComponent({
         </div>
 
         <div class="beneficios-section">
-          <p class="section-title">{{ beneficios }}</p>
+          <p class="section-title" v-html="formattedBenefitsText"></p>
         </div>
 
         <div class="cards-container">
@@ -359,6 +372,7 @@ export default defineComponent({
   text-transform: uppercase;
   color: $middle-grey;
   font-size: 60.726px;
+  color: $primary-dark;
 
   @media (max-width: 767px) {
     margin-bottom: 20px;
@@ -499,6 +513,7 @@ export default defineComponent({
   margin-bottom: 20px;
   color: $middle-grey;
   font-size: 45px;
+  color: $primary-dark;
 
   @media (max-width: 767px) {
     font-size: 32px;
@@ -605,6 +620,7 @@ export default defineComponent({
   color: $middle-grey;
   margin-bottom: 15px;
   font-size: 22px;
+  color: $primary-dark;
 }
 
 .feature-description {
@@ -699,6 +715,7 @@ export default defineComponent({
   margin-bottom: 60px;
   color: $middle-grey;
   font-size: 45px;
+  color: $primary-dark;
 
   @media (max-width: 767px) {
     margin-bottom: 40px;
@@ -823,7 +840,7 @@ export default defineComponent({
       margin: 0 0 0 25px;
     }
     @media (max-width: 1200px) {
-      font-size: 16px;
+      font-size: 20px;
     }
   }
 
