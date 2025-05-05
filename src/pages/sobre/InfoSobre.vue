@@ -199,7 +199,6 @@ export default defineComponent({
                 :key="i"
                 name="mdi-star"
                 class="star"
-                size="40px"
                 :class="{ visible: starsVisible >= i }"
               ></q-icon>
             </div>
@@ -465,13 +464,14 @@ export default defineComponent({
   opacity: 0;
   transform: scale(0.5);
   transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-
+  font-size: 40px;
   &.visible {
     opacity: 1;
     transform: scale(1);
   }
+
   @media (max-width: 767px) {
-    font-size: 30px;
+    font-size: 25px;
   }
 }
 
