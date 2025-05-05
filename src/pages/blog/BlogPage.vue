@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref, onMounted, computed, onBeforeUnmount } from 'vue';
+import { defineComponent, ref, onMounted, computed } from 'vue';
 
 interface BlogPost {
   id: number;
@@ -53,11 +53,6 @@ export default defineComponent({
     const currentImageIndex = ref(0);
     const layoutDirection = ref<'row' | 'column'>('row');
     const columnsLayout = ref<'row' | 'column'>('row');
-    const isMobile = ref(false);
-
-    const checkMobile = () => {
-      isMobile.value = window.innerWidth < 768;
-    };
 
     const currentFeaturedPost = computed(() => {
       if (posts.value.length > 7 + currentImageIndex.value) {
@@ -126,13 +121,8 @@ export default defineComponent({
       }
     };
 
-    onBeforeUnmount(() => {
-      window.removeEventListener('resize', checkMobile);
-    });
-
     onMounted(() => {
       handleResize();
-      checkMobile();
       window.addEventListener('resize', handleResize);
       void fetchPosts();
     });
@@ -150,8 +140,6 @@ export default defineComponent({
       currentFeaturedPost,
       layoutDirection,
       columnsLayout,
-      checkMobile,
-      isMobile,
     };
   },
 });
@@ -262,11 +250,10 @@ export default defineComponent({
         </q-carousel>
       </div>
 
-      <!-- Seção Mista (Texto + Carrossel) -->
       <div class="mixed-section">
         <div class="mixed-container" :style="{ flexDirection: layoutDirection }">
           <div class="mixed-content">
-            <div class="text-content" v-if="!loading && currentFeaturedPost && !isMobile">
+            <div class="text-content" v-if="!loading && currentFeaturedPost">
               <h3 class="mixed-post-title" v-html="currentFeaturedPost.title.rendered"></h3>
               <div class="mixed-post-excerpt" v-html="currentFeaturedPost.excerpt.rendered"></div>
             </div>
@@ -483,9 +470,9 @@ export default defineComponent({
     justify-content: space-between;
 
     @media (max-width: 768px) {
-      margin-left: 0;
       margin-left: 7px;
-      height: auto;
+      display: flex;
+      justify-content: space-between;
     }
 
     .post-title {
@@ -528,7 +515,7 @@ export default defineComponent({
   overflow: hidden;
 
   @media (max-width: 768px) {
-    margin: 40px auto 0;
+    margin: 40px 0;
   }
 }
 
@@ -595,7 +582,7 @@ export default defineComponent({
 
     @media (max-width: 768px) {
       bottom: 20px;
-      padding: 0 20px;
+      padding: 0 20px 25px 20px;
     }
 
     .carousel-title {
@@ -612,6 +599,7 @@ export default defineComponent({
 
       @media (max-width: 768px) {
         font-size: 28px;
+        line-height: 30px;
       }
     }
 
@@ -698,6 +686,15 @@ export default defineComponent({
 
   @media (max-width: 768px) {
     flex-direction: column;
+    gap: 0;
+
+    .mixed-content {
+      order: 2;
+    }
+
+    .image-carousel-wrapper {
+      order: 1;
+    }
   }
 }
 

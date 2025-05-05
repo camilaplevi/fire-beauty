@@ -199,7 +199,7 @@ export default defineComponent({
                 :key="i"
                 name="mdi-star"
                 class="star"
-                size="45px"
+                size="40px"
                 :class="{ visible: starsVisible >= i }"
               ></q-icon>
             </div>
